@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "MFC 문법 설명 수정"
+git commit -m "MyDigitalClock 프로젝트 시작"
 git push -u origin main
