@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "MyDigitalClock 프로젝트 시작"
+git commit -m "현재 시간 얻기 구현"
 git push -u origin main

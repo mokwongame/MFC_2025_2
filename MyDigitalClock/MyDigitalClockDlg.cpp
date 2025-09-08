@@ -163,4 +163,10 @@ void CMyDigitalClockDlg::OnBnClickedButton1()
 	// 클래스에서 공통적으로 쓰는 변수와 함수는 static으로 선언해서 한 번만 생성 --> static 멤버는 class에 종속
 	// 그래서 호출할 때는 "클래스명::멤버명"을 사용
 	curTime = CTime::GetCurrentTime();
+	int nHour = curTime.GetHour(); // 함수 정의 뒤에 있는 const 의미: 현재 함수(메소드)는 멤버 변수를 변경하지 않는다.
+	int nMin = curTime.GetMinute();
+	int nSec = curTime.GetSecond();
+	CString sTime; // Unicode를 처리하는 MFC의 문자열
+	sTime.Format(_T("%d시 %d분 %d초"), nHour, nMin, nSec); // _T 의미: Text -> Unicode
+	::AfxMessageBox(sTime); // :: 의미: 전역 함수란 뜻
 }
