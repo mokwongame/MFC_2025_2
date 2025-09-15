@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "MyInfo 프로젝트 시작"
+git commit -m "MyInfo 완성"
 git push -u origin main

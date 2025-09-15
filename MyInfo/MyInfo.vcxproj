@@ -207,6 +207,8 @@
     <None Include="res\MyInfo.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\cat.bmp" />
+    <Image Include="res\dog.bmp" />
     <Image Include="res\MyInfo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

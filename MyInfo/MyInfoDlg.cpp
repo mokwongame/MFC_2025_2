@@ -57,6 +57,11 @@ CMyInfoDlg::CMyInfoDlg(CWnd* pParent /*=nullptr*/)
 	, m_sAddress(_T(""))
 	, m_nGender(1)
 	, m_bVip(FALSE)
+	, m_sEI(_T("I"))
+	, m_sSN(_T("N"))
+	, m_sTF(_T("F"))
+	, m_sJP(_T("P"))
+	, m_nPet(1) // 강아지로 선택
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -70,6 +75,13 @@ void CMyInfoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT3, m_sAddress);
 	DDX_Radio(pDX, IDC_RADIO1, m_nGender);
 	DDX_Check(pDX, IDC_CHECK1, m_bVip);
+	DDX_CBString(pDX, IDC_COMBO1, m_sEI);
+	DDX_CBString(pDX, IDC_COMBO2, m_sSN);
+	DDX_CBString(pDX, IDC_COMBO3, m_sTF);
+	DDX_CBString(pDX, IDC_COMBO4, m_sJP);
+	DDX_CBIndex(pDX, IDC_COMBO5, m_nPet);
+	DDX_Control(pDX, IDC_PET, m_ctPet);
+	DDX_Control(pDX, IDC_MONTHCALENDAR1, m_ctMonthCal);
 }
 
 BEGIN_MESSAGE_MAP(CMyInfoDlg, CDialogEx)
@@ -174,10 +186,12 @@ void CMyInfoDlg::OnBnClickedButton1()
 	CString str;
 	str = _T("이름 = ") + m_sName;
 	m_ctListBox.AddString(str);
+
 	// CString의 char *: GetBuffer(); 반드시 이후에  ReleaseBuffer() 호출
 	str.Format(_T("주소 = (%d) %s"), m_nZipCode, m_sAddress.GetBuffer());
 	m_sAddress.ReleaseBuffer();
 	m_ctListBox.AddString(str);
+
 	// 라디오 버튼
 	// 1. 탭 오더 번호(Ctrl+D)는 인접하게 배치
 	// 2. 첫번째 라디오 버튼 속성 > 그룹 = true, 나머지는 false로 유지
@@ -185,6 +199,24 @@ void CMyInfoDlg::OnBnClickedButton1()
 	CString sGender = (m_nGender) ? _T("여성") : _T("남성");
 	str = _T("성별 = ") + sGender;
 	m_ctListBox.AddString(str);
+
 	CString sVip = (m_bVip) ? _T("VIP") : _T("일반인");
 	m_ctListBox.AddString(sVip);
+
+	CString sMbti = m_sEI + m_sSN + m_sTF + m_sJP;
+	str = _T("MBTI = ") + sMbti;
+	m_ctListBox.AddString(str);
+
+	// Picture Control
+	// 1. ID를 고유한 이름으로 바꾸기
+	// 2. 형식 = bitmap으로 선택
+	CBitmap bitmap;
+	if (m_nPet == 1) bitmap.LoadBitmap(IDB_DOG);
+	else if (m_nPet == 2) bitmap.LoadBitmap(IDB_CAT);
+	m_ctPet.SetBitmap(bitmap);
+
+	// 사용자가 선택한 날짜 얻기
+	CTime date; m_ctMonthCal.GetCurSel(date);
+	str.Format(_T("생년월일 = %d-%d-%d"), date.GetYear(), date.GetMonth(), date.GetDay());
+	m_ctListBox.AddString(str);
 }
