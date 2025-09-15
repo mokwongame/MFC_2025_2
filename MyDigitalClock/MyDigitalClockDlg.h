@@ -24,6 +24,8 @@ protected:
 	// 구현입니다.
 protected:
 	HICON m_hIcon;
+	CFont m_fontClock;
+	int m_nFontSize;
 
 	// 생성된 메시지 맵 함수
 	virtual BOOL OnInitDialog();
@@ -31,6 +33,14 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+	void changeClockFontSize(int nSize);
+	void updateClock(void);
 public:
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	CStatic m_ctClock;
+	BOOL m_bShowAmPm;
+	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButton3();
+	CStatic m_ctDate;
 };

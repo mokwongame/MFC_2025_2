@@ -7,11 +7,15 @@
 #include "MyDigitalClock.h"
 #include "MyDigitalClockDlg.h"
 #include "afxdialogex.h"
+#include "MokwonLib.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+#define TIMER_CLOCK_ID	(1)
+#define TIMER_PERIOD	(1000) // in msec
+#define CLOCK_FONT_SIZE	(30)
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -52,13 +56,18 @@ END_MESSAGE_MAP()
 
 CMyDigitalClockDlg::CMyDigitalClockDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MYDIGITALCLOCK_DIALOG, pParent)
+	, m_bShowAmPm(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_nFontSize = CLOCK_FONT_SIZE;
 }
 
 void CMyDigitalClockDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_CLOCK, m_ctClock);
+	DDX_Check(pDX, IDC_CHECK1, m_bShowAmPm);
+	DDX_Control(pDX, IDC_DATE, m_ctDate);
 }
 
 BEGIN_MESSAGE_MAP(CMyDigitalClockDlg, CDialogEx)
@@ -66,6 +75,9 @@ BEGIN_MESSAGE_MAP(CMyDigitalClockDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyDigitalClockDlg::OnBnClickedButton1)
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON2, &CMyDigitalClockDlg::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &CMyDigitalClockDlg::OnBnClickedButton3)
 END_MESSAGE_MAP()
 
 
@@ -101,6 +113,12 @@ BOOL CMyDigitalClockDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	// 타이머 설정하여 시작
+	SetTimer(TIMER_CLOCK_ID, TIMER_PERIOD, NULL);
+	// 시간과 날짜 갱신
+	updateClock();
+	// 폰트 초기화
+	changeClockFontSize(m_nFontSize);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -154,19 +172,63 @@ HCURSOR CMyDigitalClockDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CMyDigitalClockDlg::changeClockFontSize(int nSize)
+{
+	CFont* pFont = m_ctClock.GetFont();
+	LOGFONT lf;
+	pFont->GetLogFont(&lf);
+	lf.lfHeight = nSize;
+	lf.lfWeight = FW_BOLD; // 폰트 진하게
+	lf.lfUnderline = TRUE; // 밑줄
+	//CFont font; // font를 살릴려면 지역 변수 X; 전역 변수 or 클래스의 멤버 변수(필드, 프로퍼티)
+	m_fontClock.DeleteObject(); // 폰트 생성 위해 먼저 파괴
+	m_fontClock.CreateFontIndirect(&lf); // create: 생성
+	m_ctClock.SetFont(&m_fontClock);
+}
+
+void CMyDigitalClockDlg::updateClock(void)
+{
+	using namespace mokwonLib;
+	// 현재 시간을 표시
+	CString sTime = getCurTimeStr(ClockType::CLOCK, m_bShowAmPm);
+	m_ctClock.SetWindowText(sTime);
+	// 오늘 날짜 표시
+	CString sDate = getCurDateStr();
+	m_ctDate.SetWindowText(sDate);
+}
+
 // 시간 확인
 void CMyDigitalClockDlg::OnBnClickedButton1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CTime curTime; // 클래스를 변수로 선언 == 인스턴스 생성(멤버 변수와 함수를 모두 생성)
-	//CTime curTime2; // 새로운 인스턴스 생성(curTime과 다른 멤버 변수와 함수가 새롭게 생성)
-	// 클래스에서 공통적으로 쓰는 변수와 함수는 static으로 선언해서 한 번만 생성 --> static 멤버는 class에 종속
-	// 그래서 호출할 때는 "클래스명::멤버명"을 사용
-	curTime = CTime::GetCurrentTime();
-	int nHour = curTime.GetHour(); // 함수 정의 뒤에 있는 const 의미: 현재 함수(메소드)는 멤버 변수를 변경하지 않는다.
-	int nMin = curTime.GetMinute();
-	int nSec = curTime.GetSecond();
-	CString sTime; // Unicode를 처리하는 MFC의 문자열
-	sTime.Format(_T("%d시 %d분 %d초"), nHour, nMin, nSec); // _T 의미: Text -> Unicode
+	//CString sTime = mokwonLib::getCurTimeStr(mokwonLib::ClockType::CLOCK);
+	// 현재 메소드 안에서만 namespace 캡슐화 해제
+	using namespace mokwonLib;
+	UpdateData(TRUE);
+	CString sTime = getCurTimeStr(ClockType::CLOCK, m_bShowAmPm);
 	::AfxMessageBox(sTime); // :: 의미: 전역 함수란 뜻
+}
+
+void CMyDigitalClockDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	UpdateData(TRUE); // UI의 설정값을 현재 코드로 가져오기
+	updateClock();
+	CDialogEx::OnTimer(nIDEvent);
+}
+
+// 시계 글꼴 +
+void CMyDigitalClockDlg::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_nFontSize++;
+	changeClockFontSize(m_nFontSize);
+}
+
+// 시계 글꼴 -
+void CMyDigitalClockDlg::OnBnClickedButton3()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_nFontSize--;
+	changeClockFontSize(m_nFontSize);
 }

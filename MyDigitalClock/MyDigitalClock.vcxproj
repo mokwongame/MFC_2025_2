@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MokwonLib.h" />
     <ClInclude Include="MyDigitalClock.h" />
     <ClInclude Include="MyDigitalClockDlg.h" />
     <ClInclude Include="pch.h" />
