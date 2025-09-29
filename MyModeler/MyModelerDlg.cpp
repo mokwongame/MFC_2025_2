@@ -12,6 +12,7 @@
 #define new DEBUG_NEW
 #endif
 
+#define DEF_BACK_COL	RGB(255, 255, 255)
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -59,12 +60,14 @@ CMyModelerDlg::CMyModelerDlg(CWnd* pParent /*=nullptr*/)
 void CMyModelerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_btBackCol);
 }
 
 BEGIN_MESSAGE_MAP(CMyModelerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CMyModelerDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +111,10 @@ BOOL CMyModelerDlg::OnInitDialog()
 	ScreenToClient(rect); // 스크린 좌표계 -> 다이얼로그(지역) 좌표계
 
 	m_screen.Create(NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rect, this);
+
+	// 색깔 초기화
+	m_btBackCol.SetColor(DEF_BACK_COL);
+	m_screen.m_backCol = DEF_BACK_COL;
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -161,3 +168,12 @@ HCURSOR CMyModelerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+// 그리기
+void CMyModelerDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	COLORREF backCol = m_btBackCol.GetColor();
+	m_screen.m_backCol = backCol;
+	// OnPaint()를 위한 메시지 전달
+	m_screen.Invalidate(TRUE); // 입력 역할: OnEraseBkgnd() 호출 여부; TRUE이면 OnEraseBkgnd() 호출
+}

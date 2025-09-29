@@ -33,4 +33,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	CMFCColorButton m_btBackCol;
+	afx_msg void OnBnClickedButton1();
 };

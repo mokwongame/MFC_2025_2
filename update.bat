@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "스크린 컨트롤 배경색 변경"
+git commit -m "사각형 그리기(brush, pen) 준비"
 git push -u origin main
