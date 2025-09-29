@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CScreen.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MyModeler.h" />
     <ClInclude Include="MyModelerDlg.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CScreen.cpp" />
     <ClCompile Include="MyModeler.cpp" />
     <ClCompile Include="MyModelerDlg.cpp" />
     <ClCompile Include="pch.cpp">

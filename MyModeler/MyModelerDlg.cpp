@@ -103,6 +103,11 @@ BOOL CMyModelerDlg::OnInitDialog()
 	// Screen 생성
 	CWnd* pWnd = GetDlgItem(IDC_SCREEN);
 	pWnd->ShowWindow(SW_HIDE); // 현재 static을 숨기기(hide)
+	CRect rect; // 사각형(rectangle) 클래스
+	pWnd->GetWindowRect(rect); // 스크린(문서) 좌표계 기준으로 rect를 반환
+	ScreenToClient(rect); // 스크린 좌표계 -> 다이얼로그(지역) 좌표계
+
+	m_screen.Create(NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rect, this);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
