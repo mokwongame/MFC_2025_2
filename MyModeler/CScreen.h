@@ -3,6 +3,7 @@
 
 #define DEF_RECT_LINE_WID	(2)
 #define DEF_RECT_WID	(40)
+#define DEF_RECT_HT	(40)
 
 class CScreen :
 	public CStatic
@@ -11,6 +12,7 @@ public:
 	CScreen(void);
 
 	void moveRectRight(void);
+	void moveRectUp(void);
 
 	COLORREF m_backCol; // 색깔: MFC에서는 color reference 사용
 	COLORREF m_rectCol;

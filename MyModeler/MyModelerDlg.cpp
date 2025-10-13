@@ -64,6 +64,7 @@ void CMyModelerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_btBackCol);
 	DDX_Text(pDX, IDC_EDIT1, m_nRectMoveStep);
 	DDX_Control(pDX, IDC_SLIDER_WID, m_slRectWid);
+	DDX_Control(pDX, IDC_SLIDER_HT, m_slRectHt);
 }
 
 BEGIN_MESSAGE_MAP(CMyModelerDlg, CDialogEx)
@@ -73,6 +74,7 @@ BEGIN_MESSAGE_MAP(CMyModelerDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyModelerDlg::OnBnClickedButton1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMyModelerDlg::OnBnClickedButton2)
 	ON_WM_HSCROLL()
+	ON_BN_CLICKED(IDC_BUTTON3, &CMyModelerDlg::OnBnClickedButton3)
 END_MESSAGE_MAP()
 
 
@@ -125,6 +127,8 @@ BOOL CMyModelerDlg::OnInitDialog()
 	// slider control 초기화
 	m_slRectWid.SetRange(1, 200);
 	m_slRectWid.SetPos(DEF_RECT_WID);
+	m_slRectHt.SetRange(1, 200);
+	m_slRectHt.SetPos(DEF_RECT_HT);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -207,6 +211,21 @@ void CMyModelerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 		m_screen.m_nRectWid = nWid;
 		m_screen.Invalidate(TRUE); // screen만 무효화(invalidate) -> WM_PAINT message 발생
 	}
+	else if (pScrollBar->GetDlgCtrlID() == IDC_SLIDER_HT)
+	{
+		int nHt = m_slRectHt.GetPos();
+		m_screen.m_nRectHt = nHt;
+		m_screen.Invalidate(TRUE);
+	}
 
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+// up move
+void CMyModelerDlg::OnBnClickedButton3()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	m_screen.m_nRectMoveStep = m_nRectMoveStep;
+	m_screen.moveRectUp();
 }

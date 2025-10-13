@@ -40,4 +40,6 @@ public:
 	int m_nRectMoveStep;
 	CSliderCtrl m_slRectWid;
 	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnBnClickedButton3();
+	CSliderCtrl m_slRectHt;
 };
