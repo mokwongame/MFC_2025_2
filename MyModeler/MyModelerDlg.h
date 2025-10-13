@@ -36,4 +36,8 @@ protected:
 public:
 	CMFCColorButton m_btBackCol;
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
+	int m_nRectMoveStep;
+	CSliderCtrl m_slRectWid;
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 };

@@ -53,6 +53,7 @@ END_MESSAGE_MAP()
 
 CMyModelerDlg::CMyModelerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MYMODELER_DIALOG, pParent)
+	, m_nRectMoveStep(1)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -61,6 +62,8 @@ void CMyModelerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MFCCOLORBUTTON1, m_btBackCol);
+	DDX_Text(pDX, IDC_EDIT1, m_nRectMoveStep);
+	DDX_Control(pDX, IDC_SLIDER_WID, m_slRectWid);
 }
 
 BEGIN_MESSAGE_MAP(CMyModelerDlg, CDialogEx)
@@ -68,6 +71,8 @@ BEGIN_MESSAGE_MAP(CMyModelerDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyModelerDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMyModelerDlg::OnBnClickedButton2)
+	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -111,10 +116,15 @@ BOOL CMyModelerDlg::OnInitDialog()
 	ScreenToClient(rect); // 스크린 좌표계 -> 다이얼로그(지역) 좌표계
 
 	m_screen.Create(NULL, WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, rect, this);
+	m_screen.m_nRectMoveStep = m_nRectMoveStep;
 
 	// 색깔 초기화
 	m_btBackCol.SetColor(DEF_BACK_COL);
 	m_screen.m_backCol = DEF_BACK_COL;
+
+	// slider control 초기화
+	m_slRectWid.SetRange(1, 200);
+	m_slRectWid.SetPos(DEF_RECT_WID);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -176,4 +186,27 @@ void CMyModelerDlg::OnBnClickedButton1()
 	m_screen.m_backCol = backCol;
 	// OnPaint()를 위한 메시지 전달
 	m_screen.Invalidate(TRUE); // 입력 역할: OnEraseBkgnd() 호출 여부; TRUE이면 OnEraseBkgnd() 호출
+}
+
+// right move
+void CMyModelerDlg::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE); // UI 데이터를 현재 코드로 저장(save = TRUE 뜻)
+	// spin control 사용: buddy 선택(tab order = Ctrl+D로 인접한 순서가 되게 설정); 버디 정수 설정, 자동 버디, 맞춤을 각각 설정
+	m_screen.m_nRectMoveStep = m_nRectMoveStep;
+	m_screen.moveRectRight();
+}
+
+void CMyModelerDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (pScrollBar->GetDlgCtrlID() == IDC_SLIDER_WID) // slider control message인지 control ID로 확인
+	{
+		int nWid = m_slRectWid.GetPos();
+		m_screen.m_nRectWid = nWid;
+		m_screen.Invalidate(TRUE); // screen만 무효화(invalidate) -> WM_PAINT message 발생
+	}
+
+	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }

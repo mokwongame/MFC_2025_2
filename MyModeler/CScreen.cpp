@@ -4,11 +4,19 @@
 CScreen::CScreen(void)
 {
 	m_backCol = RGB(0, 0, 0); // 검정색: 색깔은 0~255까지 변함
-	m_rectCol = RGB(0, 0, 0);
+	m_rectCol = RGB(255, 0, 0);
 	m_rectLineCol = RGB(0, 0, 0);
 	m_ptRect = CPoint(80, 80);
-	m_nRectWid = m_nRectHt = 40;
+	m_nRectWid = m_nRectHt = DEF_RECT_WID;
 	m_nRectLineWid = DEF_RECT_LINE_WID;
+
+	m_nRectMoveStep = 1;
+}
+
+void CScreen::moveRectRight(void)
+{
+	m_ptRect += CPoint(m_nRectMoveStep, 0);
+	Invalidate(TRUE);
 }
 
 BEGIN_MESSAGE_MAP(CScreen, CStatic)
