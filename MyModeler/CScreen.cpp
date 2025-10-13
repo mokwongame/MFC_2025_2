@@ -6,7 +6,8 @@ CScreen::CScreen(void)
 	m_backCol = RGB(0, 0, 0); // 검정색: 색깔은 0~255까지 변함
 	m_rectCol = RGB(0, 0, 0);
 	m_rectLineCol = RGB(0, 0, 0);
-	m_nRectWid = m_nRectHt = 0;
+	m_ptRect = CPoint(80, 80);
+	m_nRectWid = m_nRectHt = 40;
 	m_nRectLineWid = DEF_RECT_LINE_WID;
 }
 
@@ -29,7 +30,8 @@ void CScreen::OnPaint()
 	CBrush* pOldBrush = dc.SelectObject(&brush);
 	CPen* pOldPen = dc.SelectObject(&pen);
 	// 사각형 설정
-
+	CRect rect(m_ptRect.x - m_nRectWid / 2, m_ptRect.y - m_nRectHt / 2, m_ptRect.x + m_nRectWid / 2, m_ptRect.y + m_nRectHt / 2); // from left, top, right, and bottom
+	dc.Rectangle(rect);
 	// 기존 GDI 객체를 복구
 	dc.SelectObject(pOldBrush);
 	dc.SelectObject(pOldPen);
