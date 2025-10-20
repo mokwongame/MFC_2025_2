@@ -7,6 +7,7 @@
 #include "MyBitmap.h"
 #include "MyBitmapDlg.h"
 #include "afxdialogex.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -59,12 +60,14 @@ CMyBitmapDlg::CMyBitmapDlg(CWnd* pParent /*=nullptr*/)
 void CMyBitmapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_MFCCOLORBUTTON2, m_btBackColor);
 }
 
 BEGIN_MESSAGE_MAP(CMyBitmapDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CMyBitmapDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -100,6 +103,7 @@ BOOL CMyBitmapDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	m_btBackColor.SetColor(DEF_BACK_COLOR);
 	m_screen.Create(IDC_SCREEN, this);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
@@ -154,3 +158,20 @@ HCURSOR CMyBitmapDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+// 그리기 버튼
+void CMyBitmapDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	COLORREF nBackColor = m_btBackColor.GetColor();
+	m_screen.m_nBackColor = nBackColor;
+	m_screen.Invalidate(TRUE);
+}
+
+// 메시지 처리 전에 호출되는 가상 함수
+// Dialog는 여기서 키보드 메시지 처리
+BOOL CMyBitmapDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}

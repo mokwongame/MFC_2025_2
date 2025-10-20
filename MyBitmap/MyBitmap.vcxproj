@@ -211,6 +211,7 @@
     <None Include="res\MyBitmap.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\car.bmp" />
     <Image Include="res\MyBitmap.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
