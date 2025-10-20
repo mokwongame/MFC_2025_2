@@ -37,4 +37,6 @@ public:
 	CMFCColorButton m_btBackColor;
 	afx_msg void OnBnClickedButton1();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	CSliderCtrl m_slCarStep;
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 };

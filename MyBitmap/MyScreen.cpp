@@ -5,6 +5,13 @@
 MyScreen::MyScreen(void)
 {
 	m_ptCar = CPoint(30, 30);
+	m_nCarStep = DEF_CAR_STEP;
+}
+
+void MyScreen::MoveCarDown(void)
+{
+	m_ptCar.y += m_nCarStep;
+	Invalidate(TRUE);
 }
 
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)

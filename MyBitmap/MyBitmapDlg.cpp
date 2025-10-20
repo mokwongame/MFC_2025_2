@@ -61,6 +61,7 @@ void CMyBitmapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MFCCOLORBUTTON2, m_btBackColor);
+	DDX_Control(pDX, IDC_SLIDER1, m_slCarStep);
 }
 
 BEGIN_MESSAGE_MAP(CMyBitmapDlg, CDialogEx)
@@ -68,6 +69,7 @@ BEGIN_MESSAGE_MAP(CMyBitmapDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyBitmapDlg::OnBnClickedButton1)
+	ON_WM_HSCROLL()
 END_MESSAGE_MAP()
 
 
@@ -104,6 +106,8 @@ BOOL CMyBitmapDlg::OnInitDialog()
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
 	m_btBackColor.SetColor(DEF_BACK_COLOR);
+	m_slCarStep.SetRange(0, 50);
+	m_slCarStep.SetPos(DEF_CAR_STEP);
 	m_screen.Create(IDC_SCREEN, this);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
@@ -172,6 +176,26 @@ void CMyBitmapDlg::OnBnClickedButton1()
 BOOL CMyBitmapDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (pMsg->message == WM_KEYDOWN) // 키보드의 키가 눌러질 때 발생하는 메시지
+	{
+		if (pMsg->wParam == VK_DOWN || pMsg->wParam == 'S')
+		{
+			m_screen.MoveCarDown();
+			return TRUE;
+		}
+	}
 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+void CMyBitmapDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (pScrollBar->GetDlgCtrlID() == IDC_SLIDER_CAR_STEP)
+	{
+		int nCarStep = m_slCarStep.GetPos();
+		m_screen.m_nCarStep = nCarStep;
+	}
+
+	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
 }
