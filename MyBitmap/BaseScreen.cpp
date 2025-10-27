@@ -25,7 +25,7 @@ BEGIN_MESSAGE_MAP(BaseScreen, CStatic)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
-void BaseScreen::drawBack(CDC* pDC)
+void BaseScreen::DrawBack(CDC* pDC)
 {
 	CBrush brush;
 	brush.CreateSolidBrush(m_nBackColor);
@@ -34,7 +34,7 @@ void BaseScreen::drawBack(CDC* pDC)
 	pDC->FillRect(rect, &brush);
 }
 
-void BaseScreen::drawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int nBackId, int nForeId)
+void BaseScreen::DrawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int nBackId, int nForeId)
 {
 	CDC memDc;
 	memDc.CreateCompatibleDC(pDC);

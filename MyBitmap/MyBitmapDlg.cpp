@@ -13,6 +13,8 @@
 #define new DEBUG_NEW
 #endif
 
+#define TIMER_ID_PERSON	(1)
+#define TIMER_PERIOD_PERSON	(200)
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
 
@@ -70,6 +72,7 @@ BEGIN_MESSAGE_MAP(CMyBitmapDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyBitmapDlg::OnBnClickedButton1)
 	ON_WM_HSCROLL()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -109,6 +112,9 @@ BOOL CMyBitmapDlg::OnInitDialog()
 	m_slCarStep.SetRange(0, 50);
 	m_slCarStep.SetPos(DEF_CAR_STEP);
 	m_screen.Create(IDC_SCREEN, this);
+
+	// timer 설정
+	SetTimer(TIMER_ID_PERSON, TIMER_PERIOD_PERSON, NULL);
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -178,6 +184,7 @@ BOOL CMyBitmapDlg::PreTranslateMessage(MSG* pMsg)
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	if (pMsg->message == WM_KEYDOWN) // 키보드의 키가 눌러질 때 발생하는 메시지
 	{
+		// 자동차
 		if (pMsg->wParam == VK_DOWN || pMsg->wParam == 'S')
 		{
 			m_screen.MoveCarDown();
@@ -188,6 +195,13 @@ BOOL CMyBitmapDlg::PreTranslateMessage(MSG* pMsg)
 			m_screen.MoveCarUp();
 			return TRUE;
 		}
+		// 사람
+		else if (pMsg->wParam == 'J')
+		{
+			m_screen.MovePersonLeft();
+			return TRUE;
+		}
+
 	}
 
 	return CDialogEx::PreTranslateMessage(pMsg);
@@ -203,4 +217,16 @@ void CMyBitmapDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	}
 
 	CDialogEx::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CMyBitmapDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (nIDEvent == TIMER_ID_PERSON)
+	{
+		m_screen.SetNextPersonId();
+		m_screen.Invalidate(FALSE);
+	}
+
+	CDialogEx::OnTimer(nIDEvent);
 }

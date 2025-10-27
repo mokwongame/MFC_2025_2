@@ -218,6 +218,8 @@
     <Image Include="res\MyBitmap.ico" />
     <Image Include="res\walk1_back.bmp" />
     <Image Include="res\walk1_fore.bmp" />
+    <Image Include="res\walk2_back.bmp" />
+    <Image Include="res\walk2_fore.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

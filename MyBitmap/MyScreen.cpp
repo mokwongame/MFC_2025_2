@@ -10,6 +10,24 @@ MyScreen::MyScreen(void)
 	m_ptPerson = CPoint(60, 60);
 	m_nPersonBack = IDB_WALK1_BACK;
 	m_nPersonFore = IDB_WALK1_FORE;
+	m_nPersonCur = 0;
+	m_nPersonCount = 2;
+}
+
+void MyScreen::SetNextPersonId(void)
+{
+	m_nPersonCur = (m_nPersonCur + 1) % m_nPersonCount;
+	switch (m_nPersonCur)
+	{
+	case 0:
+		m_nPersonBack = IDB_WALK1_BACK;
+		m_nPersonFore = IDB_WALK1_FORE;
+		break;
+	case 1:
+		m_nPersonBack = IDB_WALK2_BACK;
+		m_nPersonFore = IDB_WALK2_FORE;
+		break;
+	}
 }
 
 void MyScreen::MoveCarDown(void)
@@ -24,18 +42,24 @@ void MyScreen::MoveCarUp(void)
 	Invalidate(TRUE);
 }
 
+void MyScreen::MovePersonLeft(void)
+{
+	m_ptPerson.x -= m_nCarStep;
+	Invalidate(TRUE);
+}
+
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
-void MyScreen::drawCar(CDC* pDC)
+void MyScreen::DrawCar(CDC* pDC)
 {
-	drawBitmap(pDC, m_ptCar, 200, 99, IDB_CAR_BACK, IDB_CAR_FORE);
+	DrawBitmap(pDC, m_ptCar, 200, 99, IDB_CAR_BACK, IDB_CAR_FORE);
 }
 
-void MyScreen::drawPerson(CDC* pDC)
+void MyScreen::DrawPerson(CDC* pDC)
 {
-	drawBitmap(pDC, m_ptPerson, 110, 200, m_nPersonBack, m_nPersonFore);
+	DrawBitmap(pDC, m_ptPerson, 110, 200, m_nPersonBack, m_nPersonFore);
 }
 
 void MyScreen::OnPaint()
@@ -50,7 +74,7 @@ void MyScreen::OnPaint()
 	// 이 memory DC가 소멸할 때는 paintDc에 실제로 그려짐
 
 	// 배경색 그리기
-	drawBack(&dc);
+	DrawBack(&dc);
 
 	//CDC memDc;
 	//memDc.CreateCompatibleDC(&dc); // paint message를 처리하는 dc와 memDc를 연동해서 생성
@@ -74,8 +98,8 @@ void MyScreen::OnPaint()
 	//memDc.SelectObject(pOldBitmap);
 
 	// 자동차 그리기
-	drawCar(&dc);
+	DrawCar(&dc);
 
 	// 사람 그리기
-	drawPerson(&dc);
+	DrawPerson(&dc);
 }
