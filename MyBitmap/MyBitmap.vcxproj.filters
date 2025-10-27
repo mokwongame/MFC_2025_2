@@ -39,6 +39,9 @@
     <ClInclude Include="MyScreen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryDC.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyBitmap.cpp">
@@ -78,6 +81,12 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="res\car_fore.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\walk1_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\walk1_fore.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

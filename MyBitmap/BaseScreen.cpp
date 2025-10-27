@@ -25,15 +25,44 @@ BEGIN_MESSAGE_MAP(BaseScreen, CStatic)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
-BOOL BaseScreen::OnEraseBkgnd(CDC* pDC)
+void BaseScreen::drawBack(CDC* pDC)
 {
-	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CBrush brush;
 	brush.CreateSolidBrush(m_nBackColor);
 	CRect rect;
 	GetClientRect(rect);
 	pDC->FillRect(rect, &brush);
-	return CStatic::OnEraseBkgnd(pDC);
+}
+
+void BaseScreen::drawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int nBackId, int nForeId)
+{
+	CDC memDc;
+	memDc.CreateCompatibleDC(pDC);
+
+	CBitmap bitmap;
+
+	// 배경을 투명으로 그리기
+	bitmap.LoadBitmap(nBackId); // 메모리 할당
+	CBitmap* pOldBitmap = memDc.SelectObject(&bitmap);
+	pDC->BitBlt(pt.x, pt.y, nWid, nHt, &memDc, 0, 0, SRCAND);
+	bitmap.DeleteObject(); // 메모리 해제
+	bitmap.LoadBitmap(nForeId); // 메모리 할당
+	memDc.SelectObject(&bitmap);
+	pDC->BitBlt(pt.x, pt.y, nWid, nHt, &memDc, 0, 0, SRCPAINT);
+
+	memDc.SelectObject(pOldBitmap);
+}
+
+BOOL BaseScreen::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	//CBrush brush;
+	//brush.CreateSolidBrush(m_nBackColor);
+	//CRect rect;
+	//GetClientRect(rect);
+	//pDC->FillRect(rect, &brush);
+	//return CStatic::OnEraseBkgnd(pDC);
+	return FALSE; // 배경을 지우지 않음
 }
 
 void BaseScreen::OnPaint()

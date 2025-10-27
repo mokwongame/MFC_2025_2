@@ -183,6 +183,11 @@ BOOL CMyBitmapDlg::PreTranslateMessage(MSG* pMsg)
 			m_screen.MoveCarDown();
 			return TRUE;
 		}
+		else if (pMsg->wParam == VK_UP || pMsg->wParam == 'W')
+		{
+			m_screen.MoveCarUp();
+			return TRUE;
+		}
 	}
 
 	return CDialogEx::PreTranslateMessage(pMsg);
