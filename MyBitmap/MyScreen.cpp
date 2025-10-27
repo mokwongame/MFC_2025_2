@@ -28,10 +28,20 @@ void MyScreen::OnPaint()
 	memDc.CreateCompatibleDC(&dc); // paint message를 처리하는 dc와 memDc를 연동해서 생성
 
 	CBitmap bitmap;
-	bitmap.LoadBitmap(IDB_CAR);
+	// 그대로 그리기
+	//bitmap.LoadBitmap(IDB_CAR);
+	//CBitmap* pOldBitmap = memDc.SelectObject(&bitmap);
+	//// bit block transfer: 고속 데이터 전송 명령어
+	//dc.BitBlt(m_ptCar.x, m_ptCar.y, 200, 99, &memDc, 0, 0, SRCCOPY); // 비트맵 정보를 비트 연산 없이 그대로 복사(copy)
+
+	// 배경을 투명으로 그리기
+	bitmap.LoadBitmap(IDB_CAR_BACK); // 메모리 할당
 	CBitmap* pOldBitmap = memDc.SelectObject(&bitmap);
-	// bit block transfer: 고속 데이터 전송 명령어
-	dc.BitBlt(m_ptCar.x, m_ptCar.y, 200, 99, &memDc, 0, 0, SRCCOPY); // 비트맵 정보를 비트 연산 없이 그대로 복사(copy)
+	dc.BitBlt(m_ptCar.x, m_ptCar.y, 200, 99, &memDc, 0, 0, SRCAND);
+	bitmap.DeleteObject(); // 메모리 해제
+	bitmap.LoadBitmap(IDB_CAR_FORE); // 메모리 할당
+	memDc.SelectObject(&bitmap);
+	dc.BitBlt(m_ptCar.x, m_ptCar.y, 200, 99, &memDc, 0, 0, SRCPAINT);
 
 	memDc.SelectObject(pOldBitmap);
 }

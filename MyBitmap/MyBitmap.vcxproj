@@ -212,6 +212,8 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\car.bmp" />
+    <Image Include="res\car_back.bmp" />
+    <Image Include="res\car_fore.bmp" />
     <Image Include="res\MyBitmap.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

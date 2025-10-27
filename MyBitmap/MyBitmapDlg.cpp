@@ -61,7 +61,7 @@ void CMyBitmapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MFCCOLORBUTTON2, m_btBackColor);
-	DDX_Control(pDX, IDC_SLIDER1, m_slCarStep);
+	DDX_Control(pDX, IDC_SLIDER_CAR_STEP, m_slCarStep);
 }
 
 BEGIN_MESSAGE_MAP(CMyBitmapDlg, CDialogEx)
