@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "사람 비트맵 애니메이션 추가"
+git commit -m "MyCarRace 프로젝트 시작"
 git push -u origin main
