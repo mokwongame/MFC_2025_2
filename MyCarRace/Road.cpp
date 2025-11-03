@@ -11,6 +11,9 @@ Road::Road(void)
 	m_nLineWid = 10;
 	m_nLineHt = 50;
 	m_nLineCol = RGB(255, 255, 255);
+
+	m_nLineOffset = 0;
+	m_nLineStep = 5;
 }
 
 void Road::Draw(CDC* pDC) const
@@ -21,6 +24,14 @@ void Road::Draw(CDC* pDC) const
 
 void Road::MoveDown(void)
 {
+	m_nLineOffset += m_nLineStep;
+	if (m_nLineOffset >= m_rect.Height())
+	{
+		//m_nLineOffset = 0; // 간단한 초기화
+		// 정밀한 초기화
+		int nLine = m_rect.Height() / (2 * m_nLineHt);
+		m_nLineOffset -= nLine * (2 * m_nLineHt);
+	}
 }
 
 void Road::DrawCurbs(CDC* pDC) const
@@ -54,11 +65,20 @@ void Road::DrawOneLine(CDC* pDC, int x) const
 	CBrush brush;
 	brush.CreateSolidBrush(m_nLineCol);
 	CBrush* pOldBrush = pDC->SelectObject(&brush);
-	int y = 0;
+	// 밑으로 차선 그리기
+	int y = m_nLineOffset;
 	while (y < m_rect.Height())
 	{
 		pDC->Rectangle(CRect(x, y, x + m_nLineWid, y + m_nLineHt));
 		y += m_nLineHt * 2;
 	}
+	// 위로 차선 그리기
+	y = m_nLineOffset - m_nLineHt;
+	while (y >= 0)
+	{
+		pDC->Rectangle(CRect(x, y - m_nLineHt, x + m_nLineWid, y));
+		y -= m_nLineHt * 2;
+	}
+
 	pDC->SelectObject(pOldBrush);
 }

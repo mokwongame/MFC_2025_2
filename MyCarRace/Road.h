@@ -22,6 +22,8 @@ protected:
 	int m_nLaneSize;
 	int m_nLineWid;
 	int m_nLineHt;
+	int m_nLineOffset;
+	int m_nLineStep;
 	COLORREF m_nLineCol;
 
 	void DrawCurbs(CDC* pDC) const;

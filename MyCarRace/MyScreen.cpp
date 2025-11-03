@@ -2,14 +2,20 @@
 #include "MyScreen.h"
 #include "MemoryDC.h"
 
+#define TIMERID_RENDER	(1)
+
 MyScreen::MyScreen(void)
 {
+	m_fps = 100.;
+	m_nDeltaTime = int(1000. / m_fps);
+
 	m_nBackColor = RGB(0, 0, 0);
 }
 
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_PAINT()
 	ON_WM_CREATE()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 void MyScreen::OnPaint()
@@ -31,5 +37,20 @@ int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rect;
 	GetClientRect(rect);
 	m_road.SetRect(rect);
+
+	SetTimer(TIMERID_RENDER, m_nDeltaTime, NULL);
+
 	return 0;
+}
+
+void MyScreen::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (nIDEvent == TIMERID_RENDER)
+	{
+		m_road.MoveDown();
+		Invalidate(FALSE);
+	}
+
+	BaseScreen::OnTimer(nIDEvent);
 }
