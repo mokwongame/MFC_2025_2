@@ -185,12 +185,14 @@
   <ItemGroup>
     <ClInclude Include="BaseCar.h" />
     <ClInclude Include="BaseScreen.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MemoryDC.h" />
     <ClInclude Include="MyCarRace.h" />
     <ClInclude Include="MyCarRaceDlg.h" />
     <ClInclude Include="MyScreen.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="targetver.h" />
@@ -198,6 +200,7 @@
   <ItemGroup>
     <ClCompile Include="BaseCar.cpp" />
     <ClCompile Include="BaseScreen.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MyCarRace.cpp" />
     <ClCompile Include="MyCarRaceDlg.cpp" />
     <ClCompile Include="MyScreen.cpp" />
@@ -207,6 +210,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Road.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +220,10 @@
     <None Include="res\MyCarRace.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\car_back.bmp" />
+    <Image Include="res\car_fore.bmp" />
+    <Image Include="res\enemy_back.bmp" />
+    <Image Include="res\enemy_fore.bmp" />
     <Image Include="res\MyCarRace.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

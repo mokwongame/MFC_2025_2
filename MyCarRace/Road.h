@@ -12,6 +12,16 @@ public:
 	void Draw(CDC* pDC) const;
 	void MoveDown(void); // 도로를 아래로 움직이는 효과
 
+	void IncSpeed(void)
+	{
+		m_nLineStep++;
+	}
+	void DecSpeed(void)
+	{
+		m_nLineStep--;
+		if (m_nLineStep < 0) m_nLineStep = 0;
+	}
+
 protected:
 	CRect m_rect;
 

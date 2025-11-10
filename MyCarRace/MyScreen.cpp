@@ -9,7 +9,7 @@ MyScreen::MyScreen(void)
 	m_fps = 100.;
 	m_nDeltaTime = int(1000. / m_fps);
 
-	m_nBackColor = RGB(0, 0, 0);
+	m_nBackColor = RGB(63, 63, 63);
 }
 
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
@@ -26,6 +26,7 @@ void MyScreen::OnPaint()
 	MemoryDC dc(&viewDc);
 	DrawBack(&dc);
 	m_road.Draw(&dc);
+	m_player.Draw(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -37,6 +38,7 @@ int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CRect rect;
 	GetClientRect(rect);
 	m_road.SetRect(rect);
+	m_player.SetPtStart(rect);
 
 	SetTimer(TIMERID_RENDER, m_nDeltaTime, NULL);
 

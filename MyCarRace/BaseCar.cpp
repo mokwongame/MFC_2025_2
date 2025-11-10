@@ -8,6 +8,7 @@ BaseCar::BaseCar(void)
 	m_nBmpHt = 0;
 	m_nBackId = NULL;
 	m_nForeId = NULL;
+	m_nStep = 1;
 }
 
 void BaseCar::SetBitmap(int nWid, int nHt, int nBackId, int nForeId)
@@ -20,6 +21,7 @@ void BaseCar::SetBitmap(int nWid, int nHt, int nBackId, int nForeId)
 
 void BaseCar::Draw(CDC* pDC) const
 {
-	BaseScreen::DrawBitmap(pDC, m_ptCtr, m_nBmpWid, m_nBmpHt, m_nForeId, m_nBackId);
+	CPoint topLeft = m_ptCtr - CPoint(m_nBmpWid / 2, m_nBmpHt / 2);
+	BaseScreen::DrawBitmap(pDC, topLeft, m_nBmpWid, m_nBmpHt, m_nBackId, m_nForeId);
 }
 
