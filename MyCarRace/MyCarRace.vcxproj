@@ -183,6 +183,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCar.h" />
     <ClInclude Include="BaseScreen.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MemoryDC.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseCar.cpp" />
     <ClCompile Include="BaseScreen.cpp" />
     <ClCompile Include="MyCarRace.cpp" />
     <ClCompile Include="MyCarRaceDlg.cpp" />

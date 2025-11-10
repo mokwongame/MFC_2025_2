@@ -14,9 +14,10 @@ public:
 
 	COLORREF m_nBackColor; // ¹è°æ»ö
 
+	static void DrawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int nBackId, int nForeId);
+
 protected:
 	void DrawBack(CDC* pDC);
-	static void DrawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int nBackId, int nForeId);
 
 public:
 	DECLARE_MESSAGE_MAP()

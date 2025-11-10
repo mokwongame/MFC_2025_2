@@ -1,4 +1,4 @@
 chcp 65001
 git add --all
-git commit -m "도로를 아래로 이동"
+git commit -m "BaseCar 클래스 정의"
 git push -u origin main
