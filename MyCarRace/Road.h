@@ -5,6 +5,7 @@ class Road
 public:
 	Road(void);
 
+	CRect GetSafeRect(void) const; // 경계석(curb)을 제외한 rect 정보를 반환
 	void SetRect(const CRect& rect)
 	{
 		m_rect = rect;

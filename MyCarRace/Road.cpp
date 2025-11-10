@@ -16,6 +16,11 @@ Road::Road(void)
 	m_nLineStep = 5;
 }
 
+CRect Road::GetSafeRect(void) const
+{
+	return CRect(m_rect.left + m_nCurbSize, m_rect.top, m_rect.right - m_nCurbSize, m_rect.bottom);
+}
+
 void Road::Draw(CDC* pDC) const
 {
 	DrawCurbs(pDC);

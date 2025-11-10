@@ -7,7 +7,7 @@ class Player :
 public:
 	Player(void);
 
-	void SetPtStart(const CRect& rect);
+	virtual void SetPtStart(const CRect& rect);
 
 protected:
 };

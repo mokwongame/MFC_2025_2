@@ -1,8 +1,12 @@
 #include "pch.h"
+#include <stdlib.h> // 난수 발생용 헤더 파일
+#include <time.h> // 시간 함수용 헤더 파일
 #include "BaseScreen.h"
 
 BaseScreen::BaseScreen(void)
 {
+	RandSeed(); // 난수 발생용 seed 초기화
+
 	m_nBackColor = DEF_BACK_COLOR;
 }
 
@@ -25,7 +29,7 @@ BEGIN_MESSAGE_MAP(BaseScreen, CStatic)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
-void BaseScreen::DrawBack(CDC* pDC)
+void BaseScreen::DrawBack(CDC* pDC) const
 {
 	CBrush brush;
 	brush.CreateSolidBrush(m_nBackColor);
@@ -51,6 +55,24 @@ void BaseScreen::DrawBitmap(CDC* pDC, const CPoint& pt, int nWid, int nHt, int n
 	pDC->BitBlt(pt.x, pt.y, nWid, nHt, &memDc, 0, 0, SRCPAINT);
 
 	memDc.SelectObject(pOldBitmap);
+}
+
+void BaseScreen::RandSeed(void)
+{
+	time_t nTime = time(NULL); // _t 의미: typedef으로 정의한 자료형
+	unsigned int seed = unsigned int(llabs(nTime * nTime));
+	srand(seed);
+}
+
+double BaseScreen::RandUni(void)
+{
+	return rand() / double(RAND_MAX);
+}
+
+int BaseScreen::RandRange(int rmin, int rmax)
+{
+	double val = RandUni() * (rmax - rmin) + rmin;
+	return int(val);
 }
 
 BOOL BaseScreen::OnEraseBkgnd(CDC* pDC)

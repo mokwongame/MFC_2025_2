@@ -2,6 +2,7 @@
 #include "BaseScreen.h"
 #include "Road.h"
 #include "Player.h"
+#include "Enemy.h"
 
 class MyScreen :
 	public BaseScreen
@@ -11,6 +12,7 @@ public:
 
 	Road m_road;
 	Player m_player;
+	Enemy m_enemy;
 
 protected:
 	double m_fps;	// frame per second

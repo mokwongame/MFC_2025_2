@@ -27,6 +27,7 @@ void MyScreen::OnPaint()
 	DrawBack(&dc);
 	m_road.Draw(&dc);
 	m_player.Draw(&dc);
+	m_enemy.Draw(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -39,6 +40,7 @@ int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	GetClientRect(rect);
 	m_road.SetRect(rect);
 	m_player.SetPtStart(rect);
+	m_enemy.SetPtStart(m_road.GetSafeRect());
 
 	SetTimer(TIMERID_RENDER, m_nDeltaTime, NULL);
 
