@@ -10,6 +10,13 @@ MyScreen::MyScreen(void)
 	m_nDeltaTime = int(1000. / m_fps);
 
 	m_nBackColor = RGB(63, 63, 63);
+
+	m_pEnemy = nullptr; // null pointer
+}
+
+MyScreen::~MyScreen()
+{
+	if (m_pEnemy) delete m_pEnemy;
 }
 
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
@@ -17,6 +24,19 @@ BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
+
+void MyScreen::CreateEnemy(void)
+{
+	if (m_pEnemy) delete m_pEnemy;
+	m_pEnemy = new Enemy;
+	m_pEnemy->SetPtStart(m_road.GetSafeRect());
+}
+
+void MyScreen::MoveEnemy(void)
+{
+	// 상대 속도: Player 속도 - Enemy 속도
+	m_pEnemy->Move(0, m_road.GetSpeed() - m_pEnemy->GetSpeed());
+}
 
 void MyScreen::OnPaint()
 {
@@ -27,7 +47,9 @@ void MyScreen::OnPaint()
 	DrawBack(&dc);
 	m_road.Draw(&dc);
 	m_player.Draw(&dc);
-	m_enemy.Draw(&dc);
+	if (m_pEnemy == nullptr) CreateEnemy();
+	else MoveEnemy();
+	m_pEnemy->Draw(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -40,7 +62,6 @@ int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	GetClientRect(rect);
 	m_road.SetRect(rect);
 	m_player.SetPtStart(rect);
-	m_enemy.SetPtStart(m_road.GetSafeRect());
 
 	SetTimer(TIMERID_RENDER, m_nDeltaTime, NULL);
 

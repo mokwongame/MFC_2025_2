@@ -9,14 +9,18 @@ class MyScreen :
 {
 public:
 	MyScreen(void);
+	~MyScreen();
 
 	Road m_road;
 	Player m_player;
-	Enemy m_enemy;
+	Enemy* m_pEnemy;
 
 protected:
 	double m_fps;	// frame per second
 	int m_nDeltaTime;	// ¥‹¿ß: msec
+
+	void CreateEnemy(void);
+	void MoveEnemy(void);
 
 public:
 	DECLARE_MESSAGE_MAP()

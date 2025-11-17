@@ -5,6 +5,7 @@ class BaseCar
 public:
 	BaseCar(void);
 
+	int GetSpeed(void) const { return m_nStep; }
 	void SetBitmap(int nWid, int nHt, int nBackId, int nForeId);
 	void SetPtCtr(const CPoint& pt) { m_ptCtr = pt; }
 	virtual void SetPtStart(const CRect& rect) // 가상 함수로 선언

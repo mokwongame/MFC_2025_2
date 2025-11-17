@@ -6,6 +6,7 @@ public:
 	Road(void);
 
 	CRect GetSafeRect(void) const; // 경계석(curb)을 제외한 rect 정보를 반환
+	int GetSpeed(void) const { return m_nLineStep; }
 	void SetRect(const CRect& rect)
 	{
 		m_rect = rect;
