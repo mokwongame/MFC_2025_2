@@ -12,6 +12,8 @@ MyScreen::MyScreen(void)
 	m_nBackColor = RGB(63, 63, 63);
 
 	m_pEnemy = nullptr; // null pointer
+	m_nEnemyDistMargin = 50;
+	m_bGameOver = false;
 }
 
 MyScreen::~MyScreen()
@@ -35,7 +37,33 @@ void MyScreen::CreateEnemy(void)
 void MyScreen::MoveEnemy(void)
 {
 	// 상대 속도: Player 속도 - Enemy 속도
-	m_pEnemy->Move(0, m_road.GetSpeed() - m_pEnemy->GetSpeed());
+	if (m_pEnemy) m_pEnemy->Move(0, m_road.GetSpeed() - m_pEnemy->GetSpeed());
+}
+
+void MyScreen::CheckEnemy(void)
+{
+	if (m_pEnemy)
+	{
+		if (m_pEnemy->Top() >= m_road.Bottom() + m_nEnemyDistMargin) // 추월 성공 -> 득점
+		{
+			delete m_pEnemy;
+			m_pEnemy = nullptr;
+		}
+		else if (m_pEnemy->Bottom() <= m_road.Top() - m_nEnemyDistMargin) // 추월 실패 -> 감점
+		{
+			delete m_pEnemy;
+			m_pEnemy = nullptr;
+		}
+	}
+}
+
+bool MyScreen::HitTest(void) const
+{
+	if (m_pEnemy == nullptr) return false;
+	else
+	{
+		return m_player.HitTest(*m_pEnemy) || m_pEnemy->HitTest(m_player);
+	}
 }
 
 void MyScreen::OnPaint()
@@ -46,10 +74,13 @@ void MyScreen::OnPaint()
 	MemoryDC dc(&viewDc);
 	DrawBack(&dc);
 	m_road.Draw(&dc);
-	m_player.Draw(&dc);
-	if (m_pEnemy == nullptr) CreateEnemy();
-	else MoveEnemy();
-	m_pEnemy->Draw(&dc);
+	if (!m_bGameOver)
+	{
+		m_player.Draw(&dc);
+		if (m_pEnemy == nullptr) CreateEnemy();
+		else MoveEnemy();
+		m_pEnemy->Draw(&dc);
+	}
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -74,6 +105,11 @@ void MyScreen::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == TIMERID_RENDER)
 	{
 		m_road.MoveDown();
+		if (!m_bGameOver)
+		{
+			CheckEnemy();
+			if (HitTest()) m_bGameOver = true;
+		}
 		Invalidate(FALSE);
 	}
 

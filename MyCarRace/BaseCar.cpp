@@ -25,3 +25,16 @@ void BaseCar::Draw(CDC* pDC) const
 	BaseScreen::DrawBitmap(pDC, topLeft, m_nBmpWid, m_nBmpHt, m_nBackId, m_nForeId);
 }
 
+CRect BaseCar::MakeRect(void) const
+{
+	// (l, t, r, b)
+	return CRect(m_ptCtr.x - m_nBmpWid / 2, m_ptCtr.y - m_nBmpHt / 2, m_ptCtr.x + m_nBmpWid / 2, m_ptCtr.y + m_nBmpHt / 2);
+}
+
+bool BaseCar::HitTest(const BaseCar& car) const
+{
+	CRect myRect = MakeRect();
+	CRect carRect = car.MakeRect();
+	return myRect.PtInRect(carRect.TopLeft()) || myRect.PtInRect(carRect.BottomRight()) || myRect.PtInRect(CPoint(carRect.right, carRect.top)) || myRect.PtInRect(CPoint(carRect.left, carRect.bottom));
+}
+

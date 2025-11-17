@@ -24,6 +24,15 @@ public:
 		if (m_nLineStep < 0) m_nLineStep = 0;
 	}
 
+	int Top(void) const
+	{
+		return m_rect.top;
+	}
+	int Bottom(void) const
+	{
+		return m_rect.bottom;
+	}
+
 protected:
 	CRect m_rect;
 

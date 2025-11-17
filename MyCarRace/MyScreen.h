@@ -18,9 +18,13 @@ public:
 protected:
 	double m_fps;	// frame per second
 	int m_nDeltaTime;	// 단위: msec
+	int m_nEnemyDistMargin; // Enemy 기준으로 득점을 올린 거리 여유(distance margin)
+	bool m_bGameOver;
 
 	void CreateEnemy(void);
 	void MoveEnemy(void);
+	void CheckEnemy(void);
+	bool HitTest(void) const;
 
 public:
 	DECLARE_MESSAGE_MAP()

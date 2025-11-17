@@ -36,6 +36,18 @@ public:
 		Move(0, m_nStep);
 	}
 
+	int Top(void) const
+	{
+		return m_ptCtr.y - m_nBmpHt / 2;
+	}
+	int Bottom(void) const
+	{
+		return m_ptCtr.y + m_nBmpHt / 2;
+	}
+
+	CRect MakeRect(void) const;
+	bool HitTest(const BaseCar& car) const;
+
 protected:
 	CPoint m_ptCtr;
 	int m_nBmpWid;

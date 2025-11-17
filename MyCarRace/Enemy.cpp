@@ -12,6 +12,6 @@ Enemy::Enemy(void)
 void Enemy::SetPtStart(const CRect& rect)
 {
 	int x = BaseScreen::RandRange(rect.left + m_nBmpWid / 2, rect.right - m_nBmpWid / 2);
-	int y = m_nBmpHt / 2;
+	int y = -m_nBmpHt / 2;
 	m_ptCtr = CPoint(x, y);
 }
