@@ -14,6 +14,7 @@ MyScreen::MyScreen(void)
 	m_pEnemy = nullptr; // null pointer
 	m_nEnemyDistMargin = 50;
 	m_bGameOver = false;
+	m_score = 0.;
 }
 
 MyScreen::~MyScreen()
@@ -48,11 +49,14 @@ void MyScreen::CheckEnemy(void)
 		{
 			delete m_pEnemy;
 			m_pEnemy = nullptr;
+			m_score += 100.;
 		}
 		else if (m_pEnemy->Bottom() <= m_road.Top() - m_nEnemyDistMargin) // 추월 실패 -> 감점
 		{
 			delete m_pEnemy;
 			m_pEnemy = nullptr;
+			m_score -= 100.;
+			if (m_score < 0.) m_score = 0.;
 		}
 	}
 }
@@ -64,6 +68,21 @@ bool MyScreen::HitTest(void) const
 	{
 		return m_player.HitTest(*m_pEnemy) || m_pEnemy->HitTest(m_player);
 	}
+}
+
+void MyScreen::DrawScore(CDC* pDC) const
+{
+	CFont font;
+	font.CreatePointFont(300, _T("맑은 고딕"));
+	CString str;
+	str.Format(_T("Score = %g"), m_score);
+	CFont* pOldFont = pDC->SelectObject(&font);
+	COLORREF nTextCol = pDC->SetTextColor(RGB(0, 0, 255));
+	COLORREF nBkCol = pDC->SetBkColor(RGB(63, 63, 63));
+	pDC->TextOut(50, 50, str);
+	pDC->SelectObject(pOldFont);
+	pDC->SetTextColor(nTextCol);
+	pDC->SetBkColor(nBkCol);
 }
 
 void MyScreen::OnPaint()
@@ -81,6 +100,7 @@ void MyScreen::OnPaint()
 		else MoveEnemy();
 		m_pEnemy->Draw(&dc);
 	}
+	DrawScore(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -109,6 +129,7 @@ void MyScreen::OnTimer(UINT_PTR nIDEvent)
 		{
 			CheckEnemy();
 			if (HitTest()) m_bGameOver = true;
+			m_score += m_nDeltaTime / 1000.; // 1초에 1점씩 득점
 		}
 		Invalidate(FALSE);
 	}
