@@ -26,6 +26,7 @@ BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_PAINT()
 	ON_WM_CREATE()
 	ON_WM_TIMER()
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 void MyScreen::CreateEnemy(void)
