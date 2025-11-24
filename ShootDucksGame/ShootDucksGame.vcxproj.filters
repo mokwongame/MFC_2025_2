@@ -74,5 +74,17 @@
     <Image Include="res\ShootDucksGame.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\mountain.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\mountain_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\field.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\field_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

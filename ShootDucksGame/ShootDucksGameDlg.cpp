@@ -154,3 +154,23 @@ HCURSOR CShootDucksGameDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+BOOL CShootDucksGameDlg::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (pMsg->message == WM_KEYDOWN)
+	{
+		if (pMsg->wParam == VK_LEFT || pMsg->wParam == 'A')
+		{
+			m_screen.MoveHunterLeft();
+			m_screen.Invalidate(FALSE);
+		}
+		else if (pMsg->wParam == VK_RIGHT || pMsg->wParam == 'D')
+		{
+			m_screen.MoveHunterRight();
+			m_screen.Invalidate(FALSE);
+		}
+		return TRUE;
+	}
+	else return CDialogEx::PreTranslateMessage(pMsg);
+}
