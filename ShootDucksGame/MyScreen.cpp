@@ -13,6 +13,7 @@ MyScreen::MyScreen(void)
 	SetBackColor(RGB(0, 0, 255));
 	m_ptField = CPoint((FIELD_MAX + FIELD_MIN) / 2, 100);
 	m_pBullet = nullptr; // null pointer
+	m_pDuck = nullptr;
 
 	m_fps = 100.;
 	m_nDeltaTime = int(1000. / m_fps);
@@ -61,12 +62,35 @@ void MyScreen::MoveBullet(void)
 	if (m_pBullet->Bottom() < -10) UnmakeBullet();
 }
 
+void MyScreen::MoveDuck(void)
+{
+	if (m_pDuck == nullptr) return;
+	m_pDuck->MoveRight();
+	if (m_pDuck->Left() > m_rtClient.right + 10) UnmakeDuck();
+}
+
+void MyScreen::MakeDuck(void)
+{
+	if (m_pDuck) return;
+	m_pDuck = new Duck;
+	m_pDuck->SetPtStart(m_rtClient);
+}
+
 void MyScreen::UnmakeBullet(void)
 {
 	if (m_pBullet)
 	{
 		delete m_pBullet;
 		m_pBullet = nullptr;
+	}
+}
+
+void MyScreen::UnmakeDuck(void)
+{
+	if (m_pDuck)
+	{
+		delete m_pDuck;
+		m_pDuck = nullptr;
 	}
 }
 
@@ -84,6 +108,7 @@ void MyScreen::OnPaint()
 	MemoryDC dc(&viewDc);
 	DrawBack(&dc);
 	DrawMount(&dc);
+	if (m_pDuck) m_pDuck->Draw(&dc);
 	DrawField(&dc);
 	m_rifle.Draw(&dc);
 	if (m_pBullet) m_pBullet->Draw(&dc);
@@ -107,6 +132,8 @@ void MyScreen::OnTimer(UINT_PTR nIDEvent)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (nIDEvent == TIMERID_RENDER)
 	{
+		if (m_pDuck == nullptr) MakeDuck();
+		else MoveDuck();
 		MoveBullet();
 		Invalidate(FALSE);
 	}

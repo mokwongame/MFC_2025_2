@@ -3,6 +3,7 @@
 #include "BaseScreen.h"
 #include "Rifle.h"
 #include "Bullet.h"
+#include "Duck.h"
 
 class MyScreen :
 	public BaseScreen
@@ -20,6 +21,7 @@ protected:
 	CRect m_rtClient;
 	Rifle m_rifle;
 	Bullet* m_pBullet;
+	Duck* m_pDuck;
 
 	double m_fps;	// frame per second
 	int m_nDeltaTime;	// ¥‹¿ß: msec
@@ -28,7 +30,10 @@ protected:
 	void DrawField(CDC* pDC) const;
 
 	void MoveBullet(void);
+	void MoveDuck(void);
+	void MakeDuck(void);
 	void UnmakeBullet(void);
+	void UnmakeDuck(void);
 
 public:
 	DECLARE_MESSAGE_MAP()
