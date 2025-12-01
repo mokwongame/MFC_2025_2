@@ -6,10 +6,15 @@ public:
 	BaseObj(void);
 
 	int GetSpeed(void) const { return m_nStep; }
+	CPoint GetPtCtr(void) const { return m_ptCtr; }
 	void SetSpeed(int nStep) { m_nStep = nStep; }
 	void SetBitmap(int nWid, int nHt, int nBackId, int nForeId);
 	void SetPtCtr(const CPoint& pt) { m_ptCtr = pt; }
 	virtual void SetPtStart(const CRect& rect)
+	{
+		m_ptCtr = CPoint(0, 0);
+	}
+	virtual void SetPtStart(const CPoint& pt)
 	{
 		m_ptCtr = CPoint(0, 0);
 	}

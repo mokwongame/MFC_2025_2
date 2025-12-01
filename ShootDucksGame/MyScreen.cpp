@@ -5,24 +5,36 @@
 
 #define FIELD_MIN	(-270)
 #define FIELD_MAX	(0)
-#define FIELD_SPEED	(3)
+#define FIELD_SPEED	(2)
+#define TIMERID_RENDER	(1)
 
 MyScreen::MyScreen(void)
 {
 	SetBackColor(RGB(0, 0, 255));
 	m_ptField = CPoint((FIELD_MAX + FIELD_MIN) / 2, 100);
+	m_pBullet = nullptr; // null pointer
+
+	m_fps = 100.;
+	m_nDeltaTime = int(1000. / m_fps);
+}
+
+MyScreen::~MyScreen()
+{
+	UnmakeBullet();
 }
 
 void MyScreen::MoveHunterLeft(void)
 {
 	m_ptField.x -= FIELD_SPEED;
 	if (m_ptField.x < FIELD_MIN) m_ptField.x = FIELD_MIN;
+	m_rifle.MoveLeft();
 }
 
 void MyScreen::MoveHunterRight(void)
 {
 	m_ptField.x += FIELD_SPEED;
 	if (m_ptField.x > FIELD_MAX) m_ptField.x = FIELD_MAX;
+	m_rifle.MoveRight();
 }
 
 void MyScreen::DrawMount(CDC* pDC) const
@@ -35,9 +47,33 @@ void MyScreen::DrawField(CDC* pDC) const
 	BaseScreen::DrawBitmap(pDC, m_ptField, 900, 572, IDB_FIELD_BACK, IDB_FIELD_FORE);
 }
 
+void MyScreen::MakeBullet(void)
+{
+	if (m_pBullet) return; // 이미 메모리 할당
+	m_pBullet = new Bullet;
+	m_pBullet->SetPtStart(m_rifle.GetPtCtr());
+}
+
+void MyScreen::MoveBullet(void)
+{
+	if (m_pBullet == nullptr) return;
+	m_pBullet->MoveUp();
+	if (m_pBullet->Bottom() < -10) UnmakeBullet();
+}
+
+void MyScreen::UnmakeBullet(void)
+{
+	if (m_pBullet)
+	{
+		delete m_pBullet;
+		m_pBullet = nullptr;
+	}
+}
+
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_PAINT()
 	ON_WM_CREATE()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 void MyScreen::OnPaint()
@@ -50,6 +86,7 @@ void MyScreen::OnPaint()
 	DrawMount(&dc);
 	DrawField(&dc);
 	m_rifle.Draw(&dc);
+	if (m_pBullet) m_pBullet->Draw(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -61,5 +98,18 @@ int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	GetClientRect(m_rtClient);
 	m_rifle.SetPtStart(m_rtClient);
 
+	SetTimer(TIMERID_RENDER, m_nDeltaTime, NULL);
 	return 0;
+}
+
+void MyScreen::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (nIDEvent == TIMERID_RENDER)
+	{
+		MoveBullet();
+		Invalidate(FALSE);
+	}
+
+	BaseScreen::OnTimer(nIDEvent);
 }

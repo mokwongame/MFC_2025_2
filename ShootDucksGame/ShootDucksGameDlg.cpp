@@ -170,6 +170,11 @@ BOOL CShootDucksGameDlg::PreTranslateMessage(MSG* pMsg)
 			m_screen.MoveHunterRight();
 			m_screen.Invalidate(FALSE);
 		}
+		else if (pMsg->wParam == VK_SPACE)
+		{
+			m_screen.MakeBullet();
+			m_screen.Invalidate(FALSE);
+		}
 		return TRUE;
 	}
 	else return CDialogEx::PreTranslateMessage(pMsg);
