@@ -42,6 +42,12 @@
     <ClInclude Include="MyScreen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BaseObj.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Rifle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ShootDucksGame.cpp">
@@ -57,6 +63,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MyScreen.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObj.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Rifle.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,6 +96,24 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="res\field_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\rifle.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\rifle_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\bullet.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\bullet_back.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\duck.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\duck_back.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

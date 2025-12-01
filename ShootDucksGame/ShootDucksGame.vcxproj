@@ -183,17 +183,20 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseObj.h" />
     <ClInclude Include="BaseScreen.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MemoryDC.h" />
     <ClInclude Include="MyScreen.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Rifle.h" />
     <ClInclude Include="ShootDucksGame.h" />
     <ClInclude Include="ShootDucksGameDlg.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseObj.cpp" />
     <ClCompile Include="BaseScreen.cpp" />
     <ClCompile Include="MyScreen.cpp" />
     <ClCompile Include="pch.cpp">
@@ -202,6 +205,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Rifle.cpp" />
     <ClCompile Include="ShootDucksGame.cpp" />
     <ClCompile Include="ShootDucksGameDlg.cpp" />
   </ItemGroup>
@@ -212,10 +216,16 @@
     <None Include="res\ShootDucksGame.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\bullet.bmp" />
+    <Image Include="res\bullet_back.bmp" />
+    <Image Include="res\duck.bmp" />
+    <Image Include="res\duck_back.bmp" />
     <Image Include="res\field.bmp" />
     <Image Include="res\field_back.bmp" />
     <Image Include="res\mountain.bmp" />
     <Image Include="res\mountain_back.bmp" />
+    <Image Include="res\rifle.bmp" />
+    <Image Include="res\rifle_back.bmp" />
     <Image Include="res\ShootDucksGame.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
