@@ -16,6 +16,8 @@ public:
 	void MoveHunterRight(void);
 	void MakeBullet(void);
 
+	void DrawScore(CDC* pDC) const;
+
 protected:
 	CPoint m_ptField;
 	CRect m_rtClient;

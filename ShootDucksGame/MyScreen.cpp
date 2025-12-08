@@ -2,6 +2,7 @@
 #include "MyScreen.h"
 #include "MemoryDC.h"
 #include "resource.h"
+#include "GameManager.h"
 
 #define FIELD_MIN	(-270)
 #define FIELD_MAX	(0)
@@ -17,6 +18,8 @@ MyScreen::MyScreen(void)
 
 	m_fps = 100.;
 	m_nDeltaTime = int(1000. / m_fps);
+
+	GameManager::initScore();
 }
 
 MyScreen::~MyScreen()
@@ -99,9 +102,25 @@ void MyScreen::CheckDuck(void)
 	if (m_pDuck == nullptr || m_pBullet == nullptr) return;
 	if (m_pDuck->HitTest(*m_pBullet)) // Ãæµ¹ È®ÀÎ
 	{
+		GameManager::incScore();
 		UnmakeDuck();
 		UnmakeBullet();
 	}
+}
+
+void MyScreen::DrawScore(CDC* pDC) const
+{
+	CFont font;
+	font.CreatePointFont(300, _T("¸¼Àº °íµñ"));
+	CString str;
+	str.Format(_T("Score = %d"), GameManager::getScore());
+	CFont* pOldFont = pDC->SelectObject(&font);
+	COLORREF nTextCol = pDC->SetTextColor(RGB(0, 0, 255));
+	COLORREF nBkCol = pDC->SetBkColor(RGB(63, 63, 63));
+	pDC->TextOut(50, 50, str);
+	pDC->SelectObject(pOldFont);
+	pDC->SetTextColor(nTextCol);
+	pDC->SetBkColor(nBkCol);
 }
 
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
@@ -122,6 +141,7 @@ void MyScreen::OnPaint()
 	DrawField(&dc);
 	m_rifle.Draw(&dc);
 	if (m_pBullet) m_pBullet->Draw(&dc);
+	DrawScore(&dc);
 }
 
 int MyScreen::OnCreate(LPCREATESTRUCT lpCreateStruct)
