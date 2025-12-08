@@ -4,6 +4,7 @@
 
 Bullet::Bullet(void)
 {
+	m_nCollider = ColliderType::RECT;
 	SetBitmap(20, 50, IDB_BULLET_BACK, IDB_BULLET);
 	SetSpeed(10);
 }

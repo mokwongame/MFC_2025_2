@@ -5,8 +5,9 @@
 
 Duck::Duck(void)
 {
+	m_nCollider = ColliderType::CIRCLE;
 	SetBitmap(132, 125, IDB_DUCK_BACK, IDB_DUCK);
-	SetSpeed(15);
+	SetSpeed(10);
 }
 
 void Duck::SetPtStart(const CRect& rect)

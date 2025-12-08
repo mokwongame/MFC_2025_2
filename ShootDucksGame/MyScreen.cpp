@@ -94,6 +94,16 @@ void MyScreen::UnmakeDuck(void)
 	}
 }
 
+void MyScreen::CheckDuck(void)
+{
+	if (m_pDuck == nullptr || m_pBullet == nullptr) return;
+	if (m_pDuck->HitTest(*m_pBullet)) // 충돌 확인
+	{
+		UnmakeDuck();
+		UnmakeBullet();
+	}
+}
+
 BEGIN_MESSAGE_MAP(MyScreen, BaseScreen)
 	ON_WM_PAINT()
 	ON_WM_CREATE()
@@ -135,6 +145,7 @@ void MyScreen::OnTimer(UINT_PTR nIDEvent)
 		if (m_pDuck == nullptr) MakeDuck();
 		else MoveDuck();
 		MoveBullet();
+		CheckDuck(); // bullet과 duck의 충돌 여부 판정
 		Invalidate(FALSE);
 	}
 

@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+enum class ColliderType
+{
+	NULL_DEF = 0, RECT, CIRCLE
+};
+
 class BaseObj
 {
 public:
@@ -62,19 +67,36 @@ public:
 	{
 		return CPoint(Left(), Top());
 	}
+	CPoint TopRight(void) const
+	{
+		return CPoint(Right(), Top());
+	}
+	CPoint BottomLeft(void) const
+	{
+		return CPoint(Left(), Bottom());
+	}
 	CPoint BottomRight(void) const
 	{
 		return CPoint(Right(), Bottom());
 	}
 
+	int GetRad(void) const;
 	CRect MakeRect(void) const;
+	bool HitTest(const BaseObj& obj) const;
 
 protected:
+	ColliderType m_nCollider;
 	CPoint m_ptCtr;
 	int m_nBmpWid;
 	int m_nBmpHt;
 	int m_nBackId;
 	int m_nForeId;
 	int m_nStep;
+
+	static bool HitTest(const CRect& rect1, const CRect& rect2); // rect <-> rect
+	static bool HitTest(const CRect& rect1, const CPoint& pt2, int rad2); // rect <-> circle
+	static bool HitTest(const CPoint& pt1, int rad1, const CPoint& pt2, int rad2); // circle <-> circle
+	static bool HitTestSub(const CPoint& pt1, const CPoint& pt2, int rad);
+	static bool HitTestSub(const CRect& rect1, const CRect& rect2);
 };
 

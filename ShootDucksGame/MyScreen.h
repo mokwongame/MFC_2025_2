@@ -34,6 +34,7 @@ protected:
 	void MakeDuck(void);
 	void UnmakeBullet(void);
 	void UnmakeDuck(void);
+	void CheckDuck(void);
 
 public:
 	DECLARE_MESSAGE_MAP()
